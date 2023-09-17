@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "402972134821",
+    "project_id": "coffeeland-816a4",
+    "storage_bucket": "coffeeland-816a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402972134821:android:5d7aedea79a2db8161ac4c",
+        "android_client_info": {
+          "package_name": "uz.nabijonov.otabek.coffeedeliveryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFMribTZKW2ly2swZKagYkHdedoBYDZxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

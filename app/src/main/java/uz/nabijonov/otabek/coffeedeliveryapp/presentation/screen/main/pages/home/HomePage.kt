@@ -2,12 +2,10 @@ package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.hom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -15,25 +13,22 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import cafe.adriel.voyager.hilt.getViewModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
-import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
-import uz.nabijonov.otabek.coffeedeliveryapp.navigation.AppScreen
-import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.search.SearchScreen
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CoffeeItemComponent
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.BackgroundDark
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.ButtonBackground
@@ -69,7 +64,9 @@ object HomePage : Tab {
 
         CoffeeDeliveryAppTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
-                Scaffold(topBar = { TopBarHome(onEventDispatcher = viewModel::onEventDispatcher) }) {
+                Scaffold(topBar = {
+                    TopBarHome(onEventDispatcher = viewModel::onEventDispatcher)
+                }) {
                     HomePageComponent(
                         modifier = Modifier.padding(it),
                         uiState = uiState,
@@ -95,7 +92,7 @@ fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
     Column(
         modifier = Modifier
             .background(color = Background)
-            .fillMaxSize(),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -158,36 +155,55 @@ fun HomePageComponent(
     onEventDispatcher: (HomeContract.Intent) -> Unit,
 ) {
 
-    val gridState = rememberLazyGridState()
-
-    Column(
+    Box(
         modifier = modifier
+            .fillMaxWidth()
+            .height(500.dp)
             .background(color = Background)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.Top,
-            horizontalArrangement = Arrangement.Center,
-            state = gridState,
-            contentPadding = PaddingValues(4.dp)
-        ) {
-            items(0) {
-                CoffeeItemComponent(item = CoffeeData(
-                    id = 0,
-                    title = "",
-                    description = "",
-                    imgUrl = "",
-                    price = 0
-                ),
-                    onItemClick = {
-                        onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
-                    },
-                    onAddClick = {
-                        // add to room DB
+
+        when (uiState.value) {
+            HomeContract.UIState.Loading -> {
+                LoadingComponent()
+                onEventDispatcher(HomeContract.Intent.LoadData("Cappuccino"))
+            }
+
+            is HomeContract.UIState.PrepareData -> {
+                val data = (uiState.value as HomeContract.UIState.PrepareData).coffeeData
+
+                logger("Coffee List = ${data.size}")
+                logger("Coffee Data = ${data[0].title}")
+
+                if (data.isEmpty()) {
+                    Image(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(100.dp),
+                        painter = painterResource(id = R.drawable.ic_coffee_cup),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(color = Color.White)
+                    )
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        horizontalArrangement = Arrangement.Center,
+                        contentPadding = PaddingValues(12.dp)
+                    ) {
+                        items(data.size) { index ->
+                            logger("Index = $index")
+                            CoffeeItemComponent(
+                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
+                                item = data[index],
+                                onItemClick = {
+                                    onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
+                                },
+                                onAddClick = {
+                                    // add to room DB
+                                }
+                            )
+                        }
                     }
-                )
+                }
             }
         }
     }

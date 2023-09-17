@@ -26,12 +26,13 @@ import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.ButtonBackground
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoffeeItemComponent(
+    modifier: Modifier = Modifier,
     item: CoffeeData,
     onItemClick: (CoffeeData) -> Unit,
     onAddClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier,
+        modifier = modifier,
         colors = CardDefaults.cardColors(),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),

@@ -3,6 +3,7 @@ package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.hom
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -35,8 +36,8 @@ class HomeViewModel @Inject constructor(
                 }
             }
 
-            HomeContract.Intent.LoadData -> {
-                repository.loadData().onEach { result ->
+            is HomeContract.Intent.LoadData -> {
+                repository.loadData(intent.categoryName).onEach { result ->
                     result.onSuccess {
                         intent { reduce { HomeContract.UIState.PrepareData(it) } }
                     }
@@ -49,7 +50,7 @@ class HomeViewModel @Inject constructor(
                             )
                         }
                     }
-                }
+                }.launchIn(viewModelScope)
             }
         }
     }

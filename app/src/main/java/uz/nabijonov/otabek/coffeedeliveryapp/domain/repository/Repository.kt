@@ -5,5 +5,5 @@ import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 
 interface Repository {
 
-    fun loadData(): Flow<Result<List<CoffeeData>>>
+    fun loadData(categoryName: String): Flow<Result<List<CoffeeData>>>
 }

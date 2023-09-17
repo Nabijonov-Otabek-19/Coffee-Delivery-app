@@ -10,7 +10,7 @@ interface HomeContract {
 
     sealed interface UIState {
         object Loading : UIState
-        data class PrepareData(val coffeeData : List<CoffeeData>) : UIState
+        data class PrepareData(val coffeeData: List<CoffeeData>) : UIState
     }
 
     sealed interface SideEffect {
@@ -20,7 +20,7 @@ interface HomeContract {
     sealed interface Intent {
         object OpenDetailScreen : Intent
         object OpenSearchScreen : Intent
-        object LoadData : Intent
+        data class LoadData(val categoryName: String) : Intent
     }
 
     interface Direction {
