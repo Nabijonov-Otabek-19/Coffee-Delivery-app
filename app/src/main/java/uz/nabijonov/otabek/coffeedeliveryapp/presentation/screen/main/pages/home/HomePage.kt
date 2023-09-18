@@ -29,6 +29,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CategoryComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CoffeeItemComponent
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.EmptyComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
@@ -156,11 +157,17 @@ fun HomePageComponent(
 
     val context = LocalContext.current
 
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = Background)
     ) {
+
+        CategoryComponent(onItemClick = {
+            toast(context, it)
+            onEventDispatcher(HomeContract.Intent.SetLoading)
+            onEventDispatcher(HomeContract.Intent.LoadData(it))
+        })
 
         when (uiState.value) {
             HomeContract.UIState.Init -> {
@@ -176,42 +183,24 @@ fun HomePageComponent(
                 val data = (uiState.value as HomeContract.UIState.PrepareData).coffeeData
 
                 if (data.isEmpty()) {
-                    Image(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(100.dp),
-                        painter = painterResource(id = R.drawable.ic_coffee_cup),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(color = Color.White)
-                    )
+                    EmptyComponent()
                 } else {
-                    Column(modifier = Modifier.fillMaxSize()) {
-
-                        CategoryComponent(onItemClick = {
-                            toast(context, it)
-                            onEventDispatcher(HomeContract.Intent.SetLoading)
-                            onEventDispatcher(HomeContract.Intent.LoadData(it))
-                        })
-
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            horizontalArrangement = Arrangement.Center,
-                            contentPadding = PaddingValues(4.dp),
-                            modifier = Modifier
-
-                        ) {
-                            items(data.size) { index ->
-                                CoffeeItemComponent(
-                                    item = data[index],
-                                    onItemClick = {
-                                        onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
-                                    },
-                                    onAddClick = {
-                                        // add to room DB
-                                        toast(context, "Added to Cart")
-                                    }
-                                )
-                            }
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        horizontalArrangement = Arrangement.Center,
+                        contentPadding = PaddingValues(4.dp),
+                    ) {
+                        items(data.size) { index ->
+                            CoffeeItemComponent(
+                                item = data[index],
+                                onItemClick = {
+                                    onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
+                                },
+                                onAddClick = {
+                                    toast(context, "Added to Cart")
+                                    onEventDispatcher(HomeContract.Intent.AddToDB(data[index]))
+                                }
+                            )
                         }
                     }
                 }

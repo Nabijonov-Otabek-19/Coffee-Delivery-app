@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.viewmodel.container
-import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.Repository
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.ServerRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: Repository,
+    private val serverRepository: ServerRepository,
     private val direction: SearchDirection
 ) : SearchContract.ViewModel, ViewModel() {
 

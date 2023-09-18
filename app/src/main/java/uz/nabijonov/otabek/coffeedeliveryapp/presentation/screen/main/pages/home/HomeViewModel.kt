@@ -10,13 +10,15 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.Repository
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.LocalRepository
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.ServerRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val direction: HomeDirection,
-    private val repository: Repository
+    private val serverRepository: ServerRepository,
+    private val localRepository: LocalRepository
 ) : ViewModel(), HomeContract.ViewModel {
 
     override val container =
@@ -26,6 +28,10 @@ class HomeViewModel @Inject constructor(
         when (intent) {
             HomeContract.Intent.SetLoading -> {
                 intent { reduce { HomeContract.UIState.Loading } }
+            }
+
+            is HomeContract.Intent.AddToDB -> {
+                localRepository.add(intent.coffeeData)
             }
 
             HomeContract.Intent.OpenDetailScreen -> {
@@ -41,7 +47,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeContract.Intent.LoadData -> {
-                repository.loadData(intent.categoryName).onEach { result ->
+                serverRepository.loadData(intent.categoryName).onEach { result ->
                     result.onSuccess {
                         intent { reduce { HomeContract.UIState.PrepareData(it) } }
                     }

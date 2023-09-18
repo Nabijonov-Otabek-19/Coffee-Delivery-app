@@ -1,4 +1,4 @@
-package uz.nabijonov.otabek.coffeedeliveryapp.domain.repository
+package uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.impl
 
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -7,9 +7,10 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.ServerRepository
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor() : Repository {
+class ServerRepositoryImpl @Inject constructor() : ServerRepository {
 
     private val firestore = Firebase.firestore
 

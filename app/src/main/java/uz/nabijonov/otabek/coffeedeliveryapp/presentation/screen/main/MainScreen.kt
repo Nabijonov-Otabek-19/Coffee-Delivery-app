@@ -12,7 +12,7 @@ import cafe.adriel.voyager.navigator.tab.TabNavigator
 import uz.nabijonov.otabek.coffeedeliveryapp.navigation.AppScreen
 import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.favourite.FavouritePage
 import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.home.HomePage
-import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.order.OrderPage
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.cart.CartPage
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.BackgroundDark
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.ButtonBackground
@@ -43,7 +43,7 @@ class MainScreen : AppScreen() {
                                 containerColor = BackgroundDark
                             ) {
                                 TabNavigationItem(tab = HomePage)
-                                TabNavigationItem(tab = OrderPage)
+                                TabNavigationItem(tab = CartPage)
                                 TabNavigationItem(tab = FavouritePage)
                             }
                         }

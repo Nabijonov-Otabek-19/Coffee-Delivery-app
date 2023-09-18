@@ -4,8 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.Repository
-import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.RepositoryImpl
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.LocalRepository
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.ServerRepository
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.impl.LocalRepositoryImpl
+import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.impl.ServerRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -13,5 +15,8 @@ import javax.inject.Singleton
 interface RepositoryModule {
 
     @[Binds Singleton]
-    fun bindRepository(impl: RepositoryImpl): Repository
+    fun bindServerRepository(impl: ServerRepositoryImpl): ServerRepository
+
+    @[Binds Singleton]
+    fun bindLocalRepository(impl: LocalRepositoryImpl): LocalRepository
 }
