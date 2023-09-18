@@ -2,6 +2,8 @@ package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.hom
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +13,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -24,10 +27,12 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CategoryComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CoffeeItemComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
+import uz.nabijonov.otabek.coffeedeliveryapp.utils.categoryList
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.logger
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.toast
 
@@ -149,18 +154,22 @@ fun HomePageComponent(
     onEventDispatcher: (HomeContract.Intent) -> Unit,
 ) {
 
+    val context = LocalContext.current
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(color = Background)
     ) {
 
-        val context = LocalContext.current
-
         when (uiState.value) {
-            HomeContract.UIState.Loading -> {
+            HomeContract.UIState.Init -> {
                 LoadingComponent()
                 onEventDispatcher(HomeContract.Intent.LoadData("Cappuccino"))
+            }
+
+            HomeContract.UIState.Loading -> {
+                LoadingComponent()
             }
 
             is HomeContract.UIState.PrepareData -> {
@@ -176,22 +185,33 @@ fun HomePageComponent(
                         colorFilter = ColorFilter.tint(color = Color.White)
                     )
                 } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        horizontalArrangement = Arrangement.Center,
-                        contentPadding = PaddingValues(4.dp)
-                    ) {
-                        items(data.size) { index ->
-                            CoffeeItemComponent(
-                                item = data[index],
-                                onItemClick = {
-                                    onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
-                                },
-                                onAddClick = {
-                                    // add to room DB
-                                    toast(context, "Added to Cart")
-                                }
-                            )
+                    Column(modifier = Modifier.fillMaxSize()) {
+
+                        CategoryComponent(onItemClick = {
+                            toast(context, it)
+                            onEventDispatcher(HomeContract.Intent.SetLoading)
+                            onEventDispatcher(HomeContract.Intent.LoadData(it))
+                        })
+
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            horizontalArrangement = Arrangement.Center,
+                            contentPadding = PaddingValues(4.dp),
+                            modifier = Modifier
+
+                        ) {
+                            items(data.size) { index ->
+                                CoffeeItemComponent(
+                                    item = data[index],
+                                    onItemClick = {
+                                        onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
+                                    },
+                                    onAddClick = {
+                                        // add to room DB
+                                        toast(context, "Added to Cart")
+                                    }
+                                )
+                            }
                         }
                     }
                 }

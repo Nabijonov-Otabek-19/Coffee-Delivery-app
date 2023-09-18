@@ -20,10 +20,14 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel(), HomeContract.ViewModel {
 
     override val container =
-        container<HomeContract.UIState, HomeContract.SideEffect>(HomeContract.UIState.Loading)
+        container<HomeContract.UIState, HomeContract.SideEffect>(HomeContract.UIState.Init)
 
     override fun onEventDispatcher(intent: HomeContract.Intent) {
         when (intent) {
+            HomeContract.Intent.SetLoading -> {
+                intent { reduce { HomeContract.UIState.Loading } }
+            }
+
             HomeContract.Intent.OpenDetailScreen -> {
                 viewModelScope.launch {
                     direction.navigateToDetailScreen()
