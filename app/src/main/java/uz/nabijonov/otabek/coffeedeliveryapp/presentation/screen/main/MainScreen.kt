@@ -39,7 +39,7 @@ class MainScreen : AppScreen() {
                         bottomBar = {
                             NavigationBar(
                                 modifier = Modifier
-                                    .height(70.dp),
+                                    .height(60.dp),
                                 containerColor = BackgroundDark
                             ) {
                                 TabNavigationItem(tab = HomePage)

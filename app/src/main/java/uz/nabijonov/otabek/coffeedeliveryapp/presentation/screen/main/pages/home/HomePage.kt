@@ -1,8 +1,6 @@
 package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.home
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -19,7 +17,6 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.*
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -29,11 +26,8 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CoffeeItemComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.BackgroundDark
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.ButtonBackground
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.UnSelectedButton
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.logger
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.toast
 
@@ -98,7 +92,7 @@ fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(14.dp)
                 .padding(top = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -106,14 +100,14 @@ fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
             Text(
                 text = "Coffee\nLand",
                 fontSize = 24.sp,
-                fontFamily = FontFamily.Cursive,
+                fontFamily = customFontFamily,
                 color = ButtonBackground
             )
 
             Image(
                 painter = painterResource(id = R.drawable.ic_user),
                 contentDescription = null,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(45.dp)
             )
         }
 
@@ -140,9 +134,9 @@ fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
                 modifier = Modifier
                     .padding(start = 16.dp),
                 text = "Browse your favourite coffee..",
-                fontFamily = FontFamily.Cursive,
+                fontFamily = customFontFamily,
                 fontSize = 18.sp,
-                color = UnSelectedButton
+                color = UnSelectedButton,
             )
         }
     }
@@ -157,10 +151,11 @@ fun HomePageComponent(
 
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .height(500.dp)
+            .fillMaxSize()
             .background(color = Background)
     ) {
+
+        val context = LocalContext.current
 
         when (uiState.value) {
             HomeContract.UIState.Loading -> {
@@ -170,9 +165,6 @@ fun HomePageComponent(
 
             is HomeContract.UIState.PrepareData -> {
                 val data = (uiState.value as HomeContract.UIState.PrepareData).coffeeData
-
-                logger("Coffee List = ${data.size}")
-                logger("Coffee Data = ${data[0].title}")
 
                 if (data.isEmpty()) {
                     Image(
@@ -187,18 +179,17 @@ fun HomePageComponent(
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         horizontalArrangement = Arrangement.Center,
-                        contentPadding = PaddingValues(12.dp)
+                        contentPadding = PaddingValues(4.dp)
                     ) {
                         items(data.size) { index ->
-                            logger("Index = $index")
                             CoffeeItemComponent(
-                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
                                 item = data[index],
                                 onItemClick = {
                                     onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
                                 },
                                 onAddClick = {
                                     // add to room DB
+                                    toast(context, "Added to Cart")
                                 }
                             )
                         }

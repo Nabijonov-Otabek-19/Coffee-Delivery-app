@@ -22,6 +22,7 @@ import uz.nabijonov.otabek.coffeedeliveryapp.navigation.AppScreen
 import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.MainScreen
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.customFontFamily
 
 class SplashScreen : AppScreen() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -69,21 +70,13 @@ fun SplashComponent(modifier: Modifier = Modifier) {
             modifier = Modifier.size(300.dp)
         )
 
-        /*Image(
-            modifier = Modifier
-                .size(150.dp),
-            painter = painterResource(id = R.drawable.ic_coffee_cup),
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(color = Color.White)
-        )*/
-
         Spacer(modifier = Modifier.height(30.dp))
 
         Text(
             text = "Coffee Land",
             color = Color.White,
-            fontSize = 50.sp,
-            fontFamily = FontFamily.Cursive
+            fontSize = 40.sp,
+            fontFamily = customFontFamily
         )
     }
 }
