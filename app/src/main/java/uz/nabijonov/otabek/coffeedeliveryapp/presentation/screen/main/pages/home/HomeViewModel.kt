@@ -34,9 +34,9 @@ class HomeViewModel @Inject constructor(
                 localRepository.add(intent.coffeeData)
             }
 
-            HomeContract.Intent.OpenDetailScreen -> {
+            is HomeContract.Intent.OpenDetailScreen -> {
                 viewModelScope.launch {
-                    direction.navigateToDetailScreen()
+                    direction.navigateToDetailScreen(intent.coffeeData)
                 }
             }
 

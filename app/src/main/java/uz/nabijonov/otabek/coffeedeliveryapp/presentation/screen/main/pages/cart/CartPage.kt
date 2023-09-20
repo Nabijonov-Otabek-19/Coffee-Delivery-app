@@ -97,7 +97,6 @@ private fun AppBarCart() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OrderPageComponent(
     modifier: Modifier = Modifier,
@@ -122,7 +121,7 @@ private fun OrderPageComponent(
                     EmptyCartComponent()
                 } else {
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = Alignment.End,
                         modifier = Modifier.fillMaxSize()
                     ) {
                         LazyColumn(
@@ -136,7 +135,10 @@ private fun OrderPageComponent(
                                     modifier = Modifier,
                                     item = data[index],
                                     onItemClick = {},
-                                    onAddClick = {}
+                                    onAddClick = {},
+                                    onDeleteClick = {
+                                        onEventDispatcher(CartContract.Intent.Delete(data[index]))
+                                    }
                                 )
                             }
                         }

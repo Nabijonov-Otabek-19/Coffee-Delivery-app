@@ -2,8 +2,11 @@ package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.fav
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -17,12 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import uz.nabijonov.otabek.coffeedeliveryapp.R
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.EmptyCartComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.customFontFamily
 
 object FavouritePage : Tab {
     override val options: TabOptions
@@ -45,8 +51,8 @@ object FavouritePage : Tab {
     override fun Content() {
         CoffeeDeliveryAppTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
-                Scaffold {
-                    HomePageComponent(Modifier.padding(it))
+                Scaffold(topBar = { AppBarFavourite() }) {
+                    FavouritePageComponent(Modifier.padding(it))
                 }
             }
         }
@@ -54,7 +60,27 @@ object FavouritePage : Tab {
 }
 
 @Composable
-fun HomePageComponent(modifier: Modifier = Modifier) {
+private fun AppBarFavourite() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Background)
+            .height(56.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Favourite",
+            fontSize = 20.sp,
+            fontFamily = customFontFamily,
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+private fun FavouritePageComponent(
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .background(color = Background)
@@ -62,6 +88,6 @@ fun HomePageComponent(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Favourite Page", fontSize = 40.sp, color = Color.White)
+        EmptyCartComponent()
     }
 }

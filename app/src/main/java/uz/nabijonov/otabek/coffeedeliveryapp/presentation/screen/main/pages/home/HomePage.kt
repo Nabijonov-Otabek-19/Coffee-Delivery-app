@@ -2,8 +2,6 @@ package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.hom
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,9 +11,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -33,7 +28,6 @@ import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.EmptyComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
-import uz.nabijonov.otabek.coffeedeliveryapp.utils.categoryList
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.logger
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.toast
 
@@ -88,7 +82,7 @@ object HomePage : Tab {
 }
 
 @Composable
-fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
+private fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
     Column(
         modifier = Modifier
             .background(color = Background)
@@ -125,7 +119,7 @@ fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
                 .background(color = BackgroundDark, shape = RoundedCornerShape(8.dp))
                 .padding(start = 16.dp)
                 .clickable {
-                    onEventDispatcher(HomeContract.Intent.OpenSearchScreen)
+                    // onEventDispatcher(HomeContract.Intent.OpenSearchScreen)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -149,13 +143,11 @@ fun TopBarHome(onEventDispatcher: (HomeContract.Intent) -> Unit) {
 }
 
 @Composable
-fun HomePageComponent(
+private fun HomePageComponent(
     modifier: Modifier = Modifier,
     uiState: State<HomeContract.UIState>,
     onEventDispatcher: (HomeContract.Intent) -> Unit,
 ) {
-
-    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -164,7 +156,6 @@ fun HomePageComponent(
     ) {
 
         CategoryComponent(onItemClick = {
-            toast(context, it)
             onEventDispatcher(HomeContract.Intent.SetLoading)
             onEventDispatcher(HomeContract.Intent.LoadData(it))
         })
@@ -194,10 +185,9 @@ fun HomePageComponent(
                             CoffeeItemComponent(
                                 item = data[index],
                                 onItemClick = {
-                                    onEventDispatcher(HomeContract.Intent.OpenDetailScreen)
+                                    onEventDispatcher(HomeContract.Intent.OpenDetailScreen(data[index]))
                                 },
                                 onAddClick = {
-                                    toast(context, "Added to Cart")
                                     onEventDispatcher(HomeContract.Intent.AddToDB(data[index]))
                                 }
                             )

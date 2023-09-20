@@ -35,8 +35,8 @@ fun CategoryComponent(onItemClick: (String) -> Unit) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp)
-            .height(40.dp)
+            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .height(45.dp)
             .background(
                 color = CategoryBackground,
                 shape = CutCornerShape(50.dp)
@@ -51,7 +51,7 @@ fun CategoryComponent(onItemClick: (String) -> Unit) {
                     text = categoryList[index],
                     modifier = Modifier,
                     fontFamily = customFontFamily,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     color = ButtonBackground
                 )
             }

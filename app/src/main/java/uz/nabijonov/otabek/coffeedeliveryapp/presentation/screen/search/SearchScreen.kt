@@ -45,13 +45,13 @@ class SearchScreen : AppScreen() {
 }
 
 @Composable
-fun TopBarSearch() {
+private fun TopBarSearch() {
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreenComponent(
+private fun SearchScreenComponent(
     modifier: Modifier = Modifier,
     uiState: State<SearchContract.UIState>,
     onEventDispatcher: (SearchContract.Intent) -> Unit,
