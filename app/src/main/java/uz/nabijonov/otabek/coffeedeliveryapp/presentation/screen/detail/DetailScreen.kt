@@ -2,7 +2,9 @@ package uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
@@ -91,6 +93,7 @@ private fun DetailScreenComponent(modifier: Modifier = Modifier, coffeeData: Cof
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(state = rememberScrollState(), enabled = true)
             .background(color = Background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -144,7 +147,8 @@ private fun DetailScreenComponent(modifier: Modifier = Modifier, coffeeData: Cof
             fontSize = 18.sp,
             fontFamily = customFontFamily,
             color = Color.White,
-            textAlign = TextAlign.Justify
+            textAlign = TextAlign.Justify,
+            modifier = Modifier.padding(horizontal = 10.dp)
         )
     }
 }
