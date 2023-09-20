@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.*
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.google.android.material.behavior.SwipeDismissBehavior
 import uz.nabijonov.otabek.coffeedeliveryapp.R
 import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
@@ -34,7 +33,8 @@ import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
 fun CartItemComponent(
     modifier: Modifier = Modifier, item: CoffeeData,
     onItemClick: (CoffeeData) -> Unit,
-    onAddClick: () -> Unit,
+    onPlusClick: () -> Unit,
+    onMinusClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
 
@@ -122,7 +122,7 @@ fun CartItemComponent(
                         .height(30.dp)
                 ) {
                     OutlinedIconButton(
-                        onClick = { onAddClick.invoke() },
+                        onClick = { onMinusClick.invoke() },
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(
                             0.dp,
@@ -143,7 +143,7 @@ fun CartItemComponent(
                     Text(text = item.count.toString(), fontSize = 16.sp, color = Color.White)
 
                     OutlinedIconButton(
-                        onClick = { onAddClick.invoke() },
+                        onClick = { onPlusClick.invoke() },
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(
                             0.dp,

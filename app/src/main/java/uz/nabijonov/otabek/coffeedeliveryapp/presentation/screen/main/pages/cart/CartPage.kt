@@ -134,8 +134,25 @@ private fun OrderPageComponent(
                                 CartItemComponent(
                                     modifier = Modifier,
                                     item = data[index],
-                                    onItemClick = {},
-                                    onAddClick = {},
+                                    onItemClick = {
+                                        // detail screen, maybe
+                                    },
+                                    onPlusClick = {
+                                        onEventDispatcher(
+                                            CartContract.Intent.IncCount(
+                                                data[index].id,
+                                                data[index].count
+                                            )
+                                        )
+                                    },
+                                    onMinusClick = {
+                                        onEventDispatcher(
+                                            CartContract.Intent.DecCount(
+                                                data[index].id,
+                                                data[index].count
+                                            )
+                                        )
+                                    },
                                     onDeleteClick = {
                                         onEventDispatcher(CartContract.Intent.Delete(data[index]))
                                     }
