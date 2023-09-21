@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoffeeLand</string>
+    <string name="app_name">Coffee Land</string>
     <string name="home_tab">Home</string>
     <string name="cart_tab">Cart</string>
     <string name="favourite_tab">Favourite</string>

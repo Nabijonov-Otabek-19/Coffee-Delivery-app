@@ -141,17 +141,19 @@ private fun OrderPageComponent(
                                         onEventDispatcher(
                                             CartContract.Intent.IncCount(
                                                 data[index].id,
-                                                data[index].count
+                                                data[index].count + 1
                                             )
                                         )
                                     },
                                     onMinusClick = {
-                                        onEventDispatcher(
-                                            CartContract.Intent.DecCount(
-                                                data[index].id,
-                                                data[index].count
+                                        if (data[index].count - 1 != 0) {
+                                            onEventDispatcher(
+                                                CartContract.Intent.DecCount(
+                                                    data[index].id,
+                                                    data[index].count - 1
+                                                )
                                             )
-                                        )
+                                        }
                                     },
                                     onDeleteClick = {
                                         onEventDispatcher(CartContract.Intent.Delete(data[index]))

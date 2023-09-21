@@ -7,12 +7,12 @@ import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 @Entity(tableName = "products")
 data class ProductEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Int,
     val title: String,
     val description: String,
     val imgUrl: String,
     val price: Int,
     val count : Int
 ) {
-    fun toData() = CoffeeData(id, title, description, imgUrl, price)
+    fun toData() = CoffeeData(id, title, description, imgUrl, price, count)
 }

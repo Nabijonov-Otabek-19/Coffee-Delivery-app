@@ -10,7 +10,5 @@ data class CoffeeData(
     val price : Int = 0,
     val count : Int = 1
 ){
-    fun toEntity() = ProductEntity(
-        id, title, description, imgUrl, price, count
-    )
+    fun toEntity() = ProductEntity(id, title, description, imgUrl, price, count)
 }
