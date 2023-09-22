@@ -162,7 +162,9 @@ private fun OrderPageComponent(
                             }
                         }
 
-                        CartBottomComponent()
+                        CartBottomComponent {
+
+                        }
                     }
                 }
             }
