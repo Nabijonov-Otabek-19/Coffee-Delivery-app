@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.*
 import cafe.adriel.voyager.hilt.getViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import uz.nabijonov.otabek.coffeedeliveryapp.navigation.AppScreen
-import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.home.HomeContract
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.BackgroundDark
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
@@ -54,7 +53,7 @@ private fun TopBarSearch() {
 private fun SearchScreenComponent(
     modifier: Modifier = Modifier,
     uiState: State<SearchContract.UIState>,
-    onEventDispatcher: (SearchContract.Intent) -> Unit,
+    onEventDispatcher: (SearchContract.Intent) -> Unit
 ) {
     Column(
         modifier = modifier

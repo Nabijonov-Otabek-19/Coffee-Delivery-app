@@ -11,8 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.colorspace.ColorSpaces
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +39,7 @@ fun CartBottomComponent(grandTotal: Int, delivery: Int, taxes: Int, onPayClick: 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(30.dp)
+                .height(35.dp)
                 .padding(horizontal = 16.dp)
                 .background(color = CategoryBackground, shape = CutCornerShape(8.dp)),
             verticalAlignment = Alignment.CenterVertically,

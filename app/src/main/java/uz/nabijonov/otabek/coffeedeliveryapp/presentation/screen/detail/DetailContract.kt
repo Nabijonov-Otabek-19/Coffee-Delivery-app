@@ -10,6 +10,7 @@ interface DetailContract {
 
     sealed interface UIState {
         object Init : UIState
+        data class IsFavProduct(val isFav: Boolean) : UIState
     }
 
     sealed interface SideEffect {
@@ -19,6 +20,7 @@ interface DetailContract {
     sealed interface Intent {
         data class AddFav(val coffeeData: CoffeeData) : Intent
         data class RemoveFav(val coffeeData: CoffeeData) : Intent
+        data class CheckFavProduct(val id: Int) : Intent
         object Back : Intent
     }
 

@@ -3,40 +3,52 @@ package uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.impl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
-import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.dao.ProductDao
+import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.dao.CartDao
+import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.dao.FavDao
 import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.LocalRepository
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
-    private val dao: ProductDao
+    private val cartDao: CartDao,
+    private val favDao: FavDao
 ) : LocalRepository {
 
     override fun addToCart(coffeeData: CoffeeData) {
-        dao.addToCart(coffeeData.toCartEntity())
+        cartDao.addToCart(coffeeData.toCartEntity())
     }
 
     override fun deleteFromCart(coffeeData: CoffeeData) {
-        dao.deleteFromCart(coffeeData.toCartEntity())
+        cartDao.deleteFromCart(coffeeData.toCartEntity())
     }
 
     override fun getAllCartProducts(): Flow<List<CoffeeData>> =
-        dao.getAllCartProducts().map { list ->
+        cartDao.getAllCartProducts().map { list ->
             list.map { it.toData() }
         }
 
     override fun incrementProductCount(id: Int, count: Int) {
-        dao.incCartProductCount(id, count)
+        cartDao.incCartProductCount(id, count)
     }
 
     override fun decrementProductCount(id: Int, count: Int) {
-        dao.decCartProductCount(id, count)
+        cartDao.decCartProductCount(id, count)
     }
 
     override fun addToFav(coffeeData: CoffeeData) {
-        dao.addToFav(coffeeData.toFavEntity())
+        favDao.addToFav(coffeeData.toFavEntity())
     }
 
     override fun deleteFromFav(coffeeData: CoffeeData) {
-        dao.deleteFromFav(coffeeData.toFavEntity())
+        favDao.deleteFromFav(coffeeData.toFavEntity())
+    }
+
+    override fun getAllFavProducts(): Flow<List<CoffeeData>> =
+        favDao.getAllFavProducts().map { list ->
+            list.map { it.toData() }
+        }
+
+    override fun checkFavProduct(id: Int): Boolean {
+        val data = favDao.checkFavProduct(id)
+        return data != null
     }
 }

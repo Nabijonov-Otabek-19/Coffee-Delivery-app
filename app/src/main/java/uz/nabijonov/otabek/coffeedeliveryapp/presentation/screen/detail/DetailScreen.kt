@@ -6,9 +6,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,27 +22,64 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
+import cafe.adriel.voyager.hilt.getViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
 import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 import uz.nabijonov.otabek.coffeedeliveryapp.navigation.AppScreen
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.search.SearchContract
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.search.SearchViewModel
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.ButtonBackground
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CategoryBackground
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.DeleteButtonBack
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.customFontFamily
+import uz.nabijonov.otabek.coffeedeliveryapp.utils.toast
 
 class DetailScreen(val coffeeData: CoffeeData) : AppScreen() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+
+        val viewModel: DetailContract.ViewModel = getViewModel<DetailViewModel>()
+        val uiState = viewModel.collectAsState()
+
+        val context = LocalContext.current
+
         CoffeeDeliveryAppTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
-                Scaffold(bottomBar = { DetailBottomComponent(coffeeData) }) {
-                    DetailScreenComponent(Modifier.padding(it), coffeeData)
+                Scaffold(bottomBar = {
+                    DetailBottomComponent(
+                        coffeeData = coffeeData,
+                        onEventDispatcher = viewModel::onEventDispatcher
+                    )
+                }) {
+                    DetailScreenComponent(
+                        modifier = Modifier.padding(it),
+                        coffeeData = coffeeData,
+                        uiState = uiState,
+                        onEventDispatcher = viewModel::onEventDispatcher
+                    )
+                }
+            }
+        }
+
+        LifecycleEffect(
+            onStarted = {
+                viewModel::onEventDispatcher.invoke(DetailContract.Intent.CheckFavProduct(coffeeData.id))
+            }
+        )
+
+        viewModel.collectSideEffect { sideEffect ->
+            when (sideEffect) {
+                is DetailContract.SideEffect.Toast -> {
+                    toast(context, sideEffect.message)
                 }
             }
         }
@@ -48,7 +87,10 @@ class DetailScreen(val coffeeData: CoffeeData) : AppScreen() {
 }
 
 @Composable
-private fun DetailBottomComponent(coffeeData: CoffeeData) {
+private fun DetailBottomComponent(
+    coffeeData: CoffeeData,
+    onEventDispatcher: (DetailContract.Intent) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,7 +109,7 @@ private fun DetailBottomComponent(coffeeData: CoffeeData) {
 
         OutlinedButton(
             onClick = {
-                // buy now
+                // Pay screen
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
@@ -89,7 +131,12 @@ private fun DetailBottomComponent(coffeeData: CoffeeData) {
 }
 
 @Composable
-private fun DetailScreenComponent(modifier: Modifier = Modifier, coffeeData: CoffeeData) {
+private fun DetailScreenComponent(
+    modifier: Modifier = Modifier,
+    coffeeData: CoffeeData,
+    uiState: State<DetailContract.UIState>,
+    onEventDispatcher: (DetailContract.Intent) -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -130,15 +177,28 @@ private fun DetailScreenComponent(modifier: Modifier = Modifier, coffeeData: Cof
                 maxLines = 1
             )
 
-            IconButton(onClick = {
-                // save to favourite local DB
-            }) {
-                Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = null,
-                    tint = DeleteButtonBack,
-                    modifier = Modifier.size(30.dp)
-                )
+            when (uiState.value) {
+                is DetailContract.UIState.IsFavProduct -> {
+                    val isSaved = (uiState.value as DetailContract.UIState.IsFavProduct).isFav
+
+                    IconButton(onClick = {
+                        if (isSaved) {
+                            onEventDispatcher(DetailContract.Intent.RemoveFav(coffeeData))
+                        } else {
+                            onEventDispatcher(DetailContract.Intent.AddFav(coffeeData))
+                        }
+                        onEventDispatcher(DetailContract.Intent.CheckFavProduct(coffeeData.id))
+                    }) {
+                        Icon(
+                            imageVector = if (isSaved) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = null,
+                            tint = DeleteButtonBack,
+                            modifier = Modifier.size(35.dp)
+                        )
+                    }
+                }
+
+                else -> {}
             }
         }
 

@@ -7,7 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.dao.ProductDao
+import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.dao.CartDao
+import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.dao.FavDao
 import uz.nabijonov.otabek.coffeedeliveryapp.data.source.local.database.AppDatabase
 import javax.inject.Singleton
 
@@ -23,5 +24,8 @@ object RoomModule {
     ).allowMainThreadQueries().build()
 
     @[Provides Singleton]
-    fun provideContactDao(db: AppDatabase): ProductDao = db.getProductDao()
+    fun provideCartProductDao(db: AppDatabase): CartDao = db.getCartProductDao()
+
+    @[Provides Singleton]
+    fun provideFavProductDao(db: AppDatabase): FavDao = db.getFavProductDao()
 }

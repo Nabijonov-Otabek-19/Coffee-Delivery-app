@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import uz.nabijonov.otabek.coffeedeliveryapp.domain.repository.LocalRepository
 import javax.inject.Inject
@@ -25,6 +27,16 @@ class DetailViewModel @Inject constructor(
 
             is DetailContract.Intent.RemoveFav -> {
                 localRepository.deleteFromFav(intent.coffeeData)
+            }
+
+            is DetailContract.Intent.CheckFavProduct -> {
+                intent {
+                    reduce {
+                        DetailContract.UIState.IsFavProduct(
+                            localRepository.checkFavProduct(intent.id)
+                        )
+                    }
+                }
             }
 
             DetailContract.Intent.Back -> {

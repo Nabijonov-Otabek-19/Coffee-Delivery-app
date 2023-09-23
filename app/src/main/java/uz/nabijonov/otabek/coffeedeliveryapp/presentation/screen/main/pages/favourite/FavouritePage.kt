@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -32,9 +31,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
-import uz.nabijonov.otabek.coffeedeliveryapp.presentation.screen.main.pages.home.HomeContract
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.EmptyCartComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CoffeeItemComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.FavItemComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background

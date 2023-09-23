@@ -12,4 +12,6 @@ interface LocalRepository {
 
     fun addToFav(coffeeData: CoffeeData)
     fun deleteFromFav(coffeeData: CoffeeData)
+    fun getAllFavProducts(): Flow<List<CoffeeData>>
+    fun checkFavProduct(id: Int): Boolean
 }
