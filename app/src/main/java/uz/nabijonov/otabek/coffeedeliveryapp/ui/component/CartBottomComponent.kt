@@ -11,17 +11,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.colorspace.ColorSpaces
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.Background
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.ButtonBackground
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CategoryBackground
+import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.UnSelectedButton
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.customFontFamily
 
 
 @Composable
-fun CartBottomComponent(onPayClick: () -> Unit) {
+fun CartBottomComponent(grandTotal: Int, delivery: Int, taxes: Int, onPayClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,19 +32,25 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
             .padding(horizontal = 16.dp)
     ) {
 
+        Divider(
+            thickness = 1.dp,
+            color = UnSelectedButton,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(35.dp)
+                .height(30.dp)
                 .padding(horizontal = 16.dp)
-                .background(color = CategoryBackground, shape = CutCornerShape(10.dp)),
+                .background(color = CategoryBackground, shape = CutCornerShape(8.dp)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Text(
                 text = "Apply Coupon here",
                 fontFamily = customFontFamily,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = ButtonBackground
             )
 
@@ -54,11 +63,7 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Divider(thickness = 1.dp, color = DividerDefaults.color)
-
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             modifier = Modifier
@@ -74,7 +79,7 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
             )
 
             Text(
-                text = "49$",
+                text = "$delivery$",
                 fontSize = 16.sp,
                 color = Color.White,
                 fontFamily = customFontFamily
@@ -95,18 +100,18 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
             )
 
             Text(
-                text = "64.87$",
+                text = "$taxes$",
                 fontSize = 16.sp,
                 color = Color.White,
                 fontFamily = customFontFamily
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Divider(thickness = 1.dp, color = DividerDefaults.color)
-
-        Spacer(modifier = Modifier.height(12.dp))
+        Divider(
+            thickness = 1.dp,
+            color = UnSelectedButton,
+            modifier = Modifier.padding(top = 10.dp, bottom = 12.dp)
+        )
 
         Row(
             modifier = Modifier
@@ -116,20 +121,20 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
         ) {
             Text(
                 text = "Grand Total",
-                fontSize = 18.sp,
+                fontSize = 22.sp,
                 color = Color.White,
                 fontFamily = customFontFamily
             )
 
             Text(
-                text = "1009.87$",
-                fontSize = 18.sp,
+                text = "$grandTotal$",
+                fontSize = 22.sp,
                 color = Color.White,
                 fontFamily = customFontFamily
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
         OutlinedButton(
             onClick = {
@@ -138,6 +143,7 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
+                .height(45.dp)
                 .padding(horizontal = 16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = ButtonBackground
@@ -155,7 +161,5 @@ fun CartBottomComponent(onPayClick: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun CartBottomPreview() {
-    CartBottomComponent {
-
-    }
+    CartBottomComponent(grandTotal = 9, delivery = 10, taxes = 3) {}
 }

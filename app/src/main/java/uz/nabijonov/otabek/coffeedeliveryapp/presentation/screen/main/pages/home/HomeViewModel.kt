@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeContract.Intent.AddToDB -> {
-                localRepository.add(intent.coffeeData)
+                localRepository.addToCart(intent.coffeeData)
             }
 
             is HomeContract.Intent.OpenDetailScreen -> {

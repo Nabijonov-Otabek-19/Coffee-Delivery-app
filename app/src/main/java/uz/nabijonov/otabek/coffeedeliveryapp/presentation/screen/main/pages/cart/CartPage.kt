@@ -21,6 +21,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
+import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CartBottomComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CartItemComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.EmptyCartComponent
@@ -71,7 +72,7 @@ object CartPage : Tab {
         viewModel.collectSideEffect { sideEffect ->
             when (sideEffect) {
                 is CartContract.SideEffect.Toast -> {
-                    logger("HomePageScreen Error = " + sideEffect.message)
+                    logger("CartPageScreen Error = " + sideEffect.message)
                     toast(context, sideEffect.message)
                 }
             }
@@ -101,7 +102,7 @@ private fun AppBarCart() {
 private fun OrderPageComponent(
     modifier: Modifier = Modifier,
     uiState: State<CartContract.UIState>,
-    onEventDispatcher: (CartContract.Intent) -> Unit,
+    onEventDispatcher: (CartContract.Intent) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -116,6 +117,7 @@ private fun OrderPageComponent(
 
             is CartContract.UIState.PrepareData -> {
                 val data = (uiState.value as CartContract.UIState.PrepareData).coffeeData
+                val total = (uiState.value as CartContract.UIState.PrepareData).total
 
                 if (data.isEmpty()) {
                     EmptyCartComponent()
@@ -128,43 +130,51 @@ private fun OrderPageComponent(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(0.dp)
-                                .weight(1f, true)
-                        ) {
-                            items(data.size) { index ->
-                                CartItemComponent(
-                                    modifier = Modifier,
-                                    item = data[index],
-                                    onItemClick = {
-                                        // detail screen, maybe
-                                    },
-                                    onPlusClick = {
-                                        onEventDispatcher(
-                                            CartContract.Intent.IncCount(
-                                                data[index].id,
-                                                data[index].count + 1
-                                            )
-                                        )
-                                    },
-                                    onMinusClick = {
-                                        if (data[index].count - 1 != 0) {
+                                .weight(1f, true),
+                            content = {
+                                items(data.size) { index ->
+                                    logger("Items $index")
+
+                                    CartItemComponent(
+                                        modifier = Modifier,
+                                        item = data[index],
+                                        onItemClick = {
+                                            // detail screen, maybe
+                                        },
+                                        onPlusClick = {
                                             onEventDispatcher(
-                                                CartContract.Intent.DecCount(
+                                                CartContract.Intent.IncCount(
                                                     data[index].id,
-                                                    data[index].count - 1
+                                                    data[index].count + 1
                                                 )
                                             )
+                                        },
+                                        onMinusClick = {
+                                            if (data[index].count - 1 != 0) {
+                                                onEventDispatcher(
+                                                    CartContract.Intent.DecCount(
+                                                        data[index].id,
+                                                        data[index].count - 1
+                                                    )
+                                                )
+                                            }
+                                        },
+                                        onDeleteClick = {
+                                            onEventDispatcher(CartContract.Intent.Delete(data[index]))
                                         }
-                                    },
-                                    onDeleteClick = {
-                                        onEventDispatcher(CartContract.Intent.Delete(data[index]))
-                                    }
-                                )
+                                    )
+                                }
                             }
-                        }
+                        )
 
-                        CartBottomComponent {
-
-                        }
+                        CartBottomComponent(
+                            grandTotal = total,
+                            delivery = 2,
+                            taxes = 3,
+                            onPayClick = {
+                                // Pay Screen
+                            }
+                        )
                     }
                 }
             }

@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 
-@Entity(tableName = "products")
-data class ProductEntity(
+@Entity(tableName = "cartProducts")
+data class CartProductEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,

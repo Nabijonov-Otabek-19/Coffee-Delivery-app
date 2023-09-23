@@ -24,8 +24,12 @@ class CartViewModel @Inject constructor(
     override fun onEventDispatcher(intent: CartContract.Intent) {
         when (intent) {
             CartContract.Intent.LoadData -> {
-                localRepository.getAllProducts().onEach {
-                    intent { reduce { CartContract.UIState.PrepareData(it) } }
+                localRepository.getAllCartProducts().onEach {
+                    var total = 0
+                    it.forEach { data ->
+                        total += (data.price * data.count)
+                    }
+                    intent { reduce { CartContract.UIState.PrepareData(it, total) } }
                 }.launchIn(viewModelScope)
             }
 
@@ -38,7 +42,7 @@ class CartViewModel @Inject constructor(
             }
 
             is CartContract.Intent.Delete -> {
-                localRepository.delete(intent.coffeeData)
+                localRepository.deleteFromCart(intent.coffeeData)
             }
 
             CartContract.Intent.OpenPayScreen -> {

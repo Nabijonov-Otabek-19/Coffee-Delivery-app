@@ -57,7 +57,7 @@ fun CartItemComponent(
             AsyncImage(
                 alignment = Alignment.TopCenter,
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(72.dp)
                     .clip(RoundedCornerShape(12.dp)),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(item.imgUrl)
@@ -123,7 +123,7 @@ fun CartItemComponent(
                 ) {
                     OutlinedIconButton(
                         onClick = { onMinusClick.invoke() },
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(8.dp),
                         border = BorderStroke(
                             0.dp,
                             color = ButtonBackground
@@ -144,7 +144,7 @@ fun CartItemComponent(
 
                     OutlinedIconButton(
                         onClick = { onPlusClick.invoke() },
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(8.dp),
                         border = BorderStroke(
                             0.dp,
                             color = ButtonBackground

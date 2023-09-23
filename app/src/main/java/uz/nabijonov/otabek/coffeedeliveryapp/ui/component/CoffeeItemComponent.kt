@@ -55,8 +55,8 @@ fun CoffeeItemComponent(
             AsyncImage(
                 alignment = Alignment.TopCenter,
                 modifier = Modifier
-                    .size(130.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .size(125.dp)
+                    .clip(RoundedCornerShape(15.dp)),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(item.imgUrl)
                     .crossfade(true)
@@ -83,7 +83,7 @@ fun CoffeeItemComponent(
                 modifier = Modifier
                     .background(
                         color = ItemAddBackground,
-                        shape = RoundedCornerShape(14.dp)
+                        shape = RoundedCornerShape(12.dp)
                     )
                     .fillMaxWidth()
                     .height(40.dp)
@@ -106,7 +106,7 @@ fun CoffeeItemComponent(
 
                 OutlinedIconButton(
                     onClick = { onAddClick.invoke() },
-                    shape = RoundedCornerShape(14.dp),
+                    shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(0.dp, color = ButtonBackground),
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = ButtonBackground

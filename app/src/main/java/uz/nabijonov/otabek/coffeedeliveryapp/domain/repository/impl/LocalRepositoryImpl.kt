@@ -11,24 +11,32 @@ class LocalRepositoryImpl @Inject constructor(
     private val dao: ProductDao
 ) : LocalRepository {
 
-    override fun add(coffeeData: CoffeeData) {
-        dao.add(coffeeData.toEntity())
+    override fun addToCart(coffeeData: CoffeeData) {
+        dao.addToCart(coffeeData.toCartEntity())
     }
 
-    override fun delete(coffeeData: CoffeeData) {
-        dao.delete(coffeeData.toEntity())
+    override fun deleteFromCart(coffeeData: CoffeeData) {
+        dao.deleteFromCart(coffeeData.toCartEntity())
     }
 
-    override fun getAllProducts(): Flow<List<CoffeeData>> =
-        dao.retrieveAllProducts().map { list ->
+    override fun getAllCartProducts(): Flow<List<CoffeeData>> =
+        dao.getAllCartProducts().map { list ->
             list.map { it.toData() }
         }
 
     override fun incrementProductCount(id: Int, count: Int) {
-        dao.incProductCount(id, count)
+        dao.incCartProductCount(id, count)
     }
 
     override fun decrementProductCount(id: Int, count: Int) {
-        dao.decProductCount(id, count)
+        dao.decCartProductCount(id, count)
+    }
+
+    override fun addToFav(coffeeData: CoffeeData) {
+        dao.addToFav(coffeeData.toFavEntity())
+    }
+
+    override fun deleteFromFav(coffeeData: CoffeeData) {
+        dao.deleteFromFav(coffeeData.toFavEntity())
     }
 }

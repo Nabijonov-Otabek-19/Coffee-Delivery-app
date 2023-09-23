@@ -10,7 +10,7 @@ interface CartContract {
 
     sealed interface UIState {
         object Loading : UIState
-        data class PrepareData(val coffeeData: List<CoffeeData>) : UIState
+        data class PrepareData(val coffeeData: List<CoffeeData>, val total: Int) : UIState
     }
 
     sealed interface SideEffect {
