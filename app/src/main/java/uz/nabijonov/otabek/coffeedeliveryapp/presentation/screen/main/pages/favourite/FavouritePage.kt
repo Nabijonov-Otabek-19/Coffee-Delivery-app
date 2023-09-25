@@ -136,7 +136,10 @@ private fun FavouritePageComponent(
                         items(data.size) { index ->
                             FavItemComponent(
                                 imgUrl = data[index].imgUrl,
-                                title = data[index].title
+                                title = data[index].title,
+                                onLongDeleteClick = {
+                                    onEventDispatcher(FavouriteContract.Intent.Delete(data[index]))
+                                }
                             )
                         }
                     }

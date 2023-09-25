@@ -20,7 +20,7 @@ interface DetailContract {
     sealed interface Intent {
         data class AddFav(val coffeeData: CoffeeData) : Intent
         data class RemoveFav(val coffeeData: CoffeeData) : Intent
-        data class CheckFavProduct(val id: Int) : Intent
+        data class CheckFavProduct(val title: String) : Intent
         object Back : Intent
     }
 

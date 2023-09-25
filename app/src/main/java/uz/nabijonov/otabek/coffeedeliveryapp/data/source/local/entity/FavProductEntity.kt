@@ -12,8 +12,7 @@ data class FavProductEntity(
     val description: String,
     val imgUrl: String,
     val price: Int,
-    val count : Int,
-    val isFav: Boolean
+    val count: Int
 ) {
-    fun toData() = CoffeeData(id, title, description, imgUrl, price, count, isFav)
+    fun toData() = CoffeeData(id, title, description, imgUrl, price, count)
 }

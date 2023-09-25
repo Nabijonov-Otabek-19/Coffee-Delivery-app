@@ -70,12 +70,6 @@ class DetailScreen(val coffeeData: CoffeeData) : AppScreen() {
             }
         }
 
-        LifecycleEffect(
-            onStarted = {
-                viewModel::onEventDispatcher.invoke(DetailContract.Intent.CheckFavProduct(coffeeData.id))
-            }
-        )
-
         viewModel.collectSideEffect { sideEffect ->
             when (sideEffect) {
                 is DetailContract.SideEffect.Toast -> {
@@ -137,6 +131,10 @@ private fun DetailScreenComponent(
     uiState: State<DetailContract.UIState>,
     onEventDispatcher: (DetailContract.Intent) -> Unit
 ) {
+
+    val context = LocalContext.current
+    onEventDispatcher(DetailContract.Intent.CheckFavProduct(coffeeData.title))
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -184,10 +182,13 @@ private fun DetailScreenComponent(
                     IconButton(onClick = {
                         if (isSaved) {
                             onEventDispatcher(DetailContract.Intent.RemoveFav(coffeeData))
+                            toast(context, "Deleted")
                         } else {
                             onEventDispatcher(DetailContract.Intent.AddFav(coffeeData))
+                            toast(context, "Added")
                         }
-                        onEventDispatcher(DetailContract.Intent.CheckFavProduct(coffeeData.id))
+
+                        onEventDispatcher(DetailContract.Intent.CheckFavProduct(coffeeData.title))
                     }) {
                         Icon(
                             imageVector = if (isSaved) Icons.Default.Favorite else Icons.Default.FavoriteBorder,

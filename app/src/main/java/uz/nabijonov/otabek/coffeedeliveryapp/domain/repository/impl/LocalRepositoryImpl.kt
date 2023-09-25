@@ -47,8 +47,8 @@ class LocalRepositoryImpl @Inject constructor(
             list.map { it.toData() }
         }
 
-    override fun checkFavProduct(id: Int): Boolean {
-        val data = favDao.checkFavProduct(id)
+    override fun checkFavProduct(title: String): Boolean {
+        val data = favDao.checkFavProduct(title)
         return data != null
     }
 }

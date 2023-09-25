@@ -33,7 +33,7 @@ class DetailViewModel @Inject constructor(
                 intent {
                     reduce {
                         DetailContract.UIState.IsFavProduct(
-                            localRepository.checkFavProduct(intent.id)
+                            localRepository.checkFavProduct(intent.title)
                         )
                     }
                 }

@@ -21,6 +21,6 @@ interface FavDao {
     @Query("Select * from favProducts")
     fun getAllFavProducts(): Flow<List<FavProductEntity>>
 
-    @Query("SELECT * FROM favProducts WHERE id = :id")
-    fun checkFavProduct(id: Int): FavProductEntity?
+    @Query("SELECT * FROM favProducts WHERE title = :title")
+    fun checkFavProduct(title: String): FavProductEntity?
 }

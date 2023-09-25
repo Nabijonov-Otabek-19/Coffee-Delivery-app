@@ -133,8 +133,6 @@ private fun OrderPageComponent(
                                 .weight(1f, true),
                             content = {
                                 items(data.size) { index ->
-                                    logger("Items $index")
-
                                     CartItemComponent(
                                         modifier = Modifier,
                                         item = data[index],
