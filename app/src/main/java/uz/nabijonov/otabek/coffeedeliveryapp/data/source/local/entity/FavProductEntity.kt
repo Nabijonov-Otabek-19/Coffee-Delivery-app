@@ -6,7 +6,7 @@ import uz.nabijonov.otabek.coffeedeliveryapp.data.common.CoffeeData
 
 @Entity(tableName = "favProducts")
 data class FavProductEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int,
     val title: String,
     val description: String,
