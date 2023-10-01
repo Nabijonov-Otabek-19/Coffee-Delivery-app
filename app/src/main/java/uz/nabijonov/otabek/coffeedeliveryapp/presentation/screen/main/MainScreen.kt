@@ -25,7 +25,7 @@ class MainScreen : AppScreen() {
     override fun Content() {
         CoffeeDeliveryAppTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
-                TabNavigator(HomePage) {
+                TabNavigator(tab = HomePage) {
                     Scaffold(
                         content = {
                             Box(
@@ -37,21 +37,24 @@ class MainScreen : AppScreen() {
                             }
                         },
                         bottomBar = {
-                            NavigationBar(
-                                modifier = Modifier
-                                    .height(60.dp),
-                                containerColor = BackgroundDark
-                            ) {
-                                TabNavigationItem(tab = HomePage)
-                                TabNavigationItem(tab = CartPage)
-                                TabNavigationItem(tab = FavouritePage)
-                            }
+                            MyNavigationBar()
                         }
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+private fun MyNavigationBar() = NavigationBar(
+    modifier = Modifier
+        .height(60.dp),
+    containerColor = BackgroundDark
+) {
+    TabNavigationItem(tab = HomePage)
+    TabNavigationItem(tab = CartPage)
+    TabNavigationItem(tab = FavouritePage)
 }
 
 @Composable
