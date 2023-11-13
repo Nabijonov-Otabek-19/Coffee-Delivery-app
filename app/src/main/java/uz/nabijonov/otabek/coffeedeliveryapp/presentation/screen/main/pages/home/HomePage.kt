@@ -22,10 +22,10 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import uz.nabijonov.otabek.coffeedeliveryapp.R
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CategoryComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.CoffeeItemComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.EmptyComponent
-import uz.nabijonov.otabek.coffeedeliveryapp.ui.component.LoadingComponent
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.component.CategoryComponent
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.component.CoffeeItemComponent
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.component.EmptyComponent
+import uz.nabijonov.otabek.coffeedeliveryapp.presentation.component.LoadingComponent
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.*
 import uz.nabijonov.otabek.coffeedeliveryapp.ui.theme.CoffeeDeliveryAppTheme
 import uz.nabijonov.otabek.coffeedeliveryapp.utils.logger

@@ -1,4 +1,4 @@
-package uz.nabijonov.otabek.coffeedeliveryapp.ui.component
+package uz.nabijonov.otabek.coffeedeliveryapp.presentation.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

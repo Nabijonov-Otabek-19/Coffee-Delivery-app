@@ -1,14 +1,11 @@
-package uz.nabijonov.otabek.coffeedeliveryapp.ui.component
+package uz.nabijonov.otabek.coffeedeliveryapp.presentation.component
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -17,8 +14,9 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import uz.nabijonov.otabek.coffeedeliveryapp.R
 
 @Composable
-fun EmptyCartComponent() {
-    val rawComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.empty1))
+fun LoadingComponent() {
+
+    val rawComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.anim_loading1))
     val progress by animateLottieCompositionAsState(
         rawComposition,
         iterations = LottieConstants.IterateForever,

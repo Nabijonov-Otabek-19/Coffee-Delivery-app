@@ -48,8 +48,7 @@ class MainScreen : AppScreen() {
 
 @Composable
 private fun MyNavigationBar() = NavigationBar(
-    modifier = Modifier
-        .height(60.dp),
+    modifier = Modifier.height(60.dp),
     containerColor = BackgroundDark
 ) {
     TabNavigationItem(tab = HomePage)
